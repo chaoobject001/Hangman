@@ -1,12 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Demo page - Hangman</title>
+    <title>Hangman!</title>
 </head>
 <body>
     <h1>Hangman</h1>
     <script>
-        alert("Awsome!");
+        // Create an array of words
+        var words = [
+            "Encapsulation",
+            "Abstraction", 
+            "Inheritance",
+            "Polymorphism"
+        ];
+        // pick a random word
+        var word = words[Math.floor(Math.random() * words.length)];
+
+        // setup answer array
+        var answerArray = [];
+        for (var i = 0; i < word.length; ++i) {
+            answerArray[i] = "_";
+        }
+
+        var remainingLetters = word.length;
+        
+        // the game loop 
+        while (remainingLetters > 0) {
+            // show player progress
+            alert(answerArray.join(" "));
+            // prompt player for a guess
+            var guess = prompt("Guess a letter, or click Cancel to stop.");
+            if (guess === null) {
+                // exit the game loop
+                break;
+            } else if (guess.length !== 1) {
+                alert("Please enter a single letter.");
+            } else {
+                // update the game with guess
+                for (var j = 0; j < word.length; ++j) {
+                    if (word[j] === guess) {
+                        answerArray[j] = guess;
+                        remainingLetters--;
+                    }
+                }
+            } 
+        }
+        // show answer and congratulate the player 
+        alert(answerArray.join(" "));
+        alert("Well done! The word is " + word + ".");
     </script>
 </body>
 </html>
