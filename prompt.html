@@ -8,19 +8,21 @@
     <script>
         // Create an array of words
         var words = [
-            "Encapsulation",
-            "Abstraction", 
-            "Inheritance",
-            "Polymorphism"
+            "encapsulation",
+            "abstraction", 
+            "inheritance",
+            "polymorphism"
         ];
         // pick a random word
-        var word = words[Math.floor(Math.random() * words.length)];
+        var word = words[Math.floor(Math.random() * words.length)].toLowerCase();
 
         // setup answer array
-        var answerArray = [];
-        for (var i = 0; i < word.length; ++i) {
-            answerArray[i] = "_";
-        }
+        var answerArray = word.split('').map(() => "_");
+        
+        // var answerArray = [];
+        // for (var i = 0; i < word.length; ++i) {
+        //     answerArray[i] = "_";
+        // }
 
         var remainingLetters = word.length;
         
@@ -29,7 +31,9 @@
             // show player progress
             alert(answerArray.join(" "));
             // prompt player for a guess
-            var guess = prompt("Guess a letter, or click Cancel to stop.");
+            var guess = 
+                prompt("Guess a letter, or click Cancel to stop.");
+            
             if (guess === null) {
                 // exit the game loop
                 break;
@@ -37,17 +41,31 @@
                 alert("Please enter a single letter.");
             } else {
                 // update the game with guess
-                for (var j = 0; j < word.length; ++j) {
-                    if (word[j] === guess) {
-                        answerArray[j] = guess;
+                var guessInLowerCase = guess.toLowerCase();    
+                // for (var j = 0; j < word.length; ++j) {
+                //     if (word[j] === guessInLowerCase && answerArray[j] === "_") {
+                //         answerArray[j] = guessInLowerCase;
+                //         remainingLetters--;
+                //     }
+                // }
+                word.split('').reduce((ans, letter, index)=>{
+                    if (letter === guessInLowerCase && ans[index - 1] === "_") {
+                        ans[index - 1] = letter;
+                        alert(ans);
                         remainingLetters--;
+                        alert(remainingLetters);
+                        return ans;
                     }
-                }
+                }, answerArray);
             } 
         }
         // show answer and congratulate the player 
-        alert(answerArray.join(" "));
-        alert("Well done! The word is " + word + ".");
+        
+        if (remainingLetters === 0) {
+            alert("Well done! The word is " + word + ".");
+        } else {
+            alert("Your guess thus far: " + answerArray.join(" "));
+        }
     </script>
 </body>
 </html>
